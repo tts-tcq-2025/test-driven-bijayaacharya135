@@ -1,6 +1,8 @@
 #include "StringCalculator.h"
 #include <sstream>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 // Main Add method: sums numbers in a string according to TDD requirements
 int StringCalculator::Add(const std::string& numbers) {
