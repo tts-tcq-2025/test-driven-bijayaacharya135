@@ -3,13 +3,14 @@
 #include <vector>
 
 class StringCalculator {
-public:
+ public:  // Fixed indentation for inspect-code
     int Add(const std::string& numbers);
 
-private:
+ private:  // Fixed indentation for inspect-code
     std::vector<std::string> getDelimiters(const std::string& input);
     std::string stripDelimiterHeader(const std::string& input);
-    std::string normalizeDelimiters(const std::string& input, const std::vector<std::string>& delimiters);
+    std::string normalizeDelimiters(const std::string& input,
+                                    const std::vector<std::string>& delimiters);  // Line split
     std::vector<int> parseNumbers(const std::string& input);
     void checkNegatives(const std::vector<int>& nums);
     int sumNumbers(const std::vector<int>& nums);
