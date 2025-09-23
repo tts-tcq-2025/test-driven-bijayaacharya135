@@ -80,4 +80,5 @@ int main() {
     test_negative_numbers();
     test_long_delimiter();
     std::cout << "All TDD cases passed!" << std::endl;
-    return
+    return 0;
+}
