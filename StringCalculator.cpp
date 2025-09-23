@@ -6,6 +6,11 @@
 #include <algorithm>  // For std::copy_if
 #include <numeric>    // For std::accumulate
 
+// Helper for delimiter type
+static bool is_long_delimiter(const std::string& delim) {
+  return !delim.empty() && delim.front() == '[' && delim.back() == ']';
+}
+
 // Main Add method: sums numbers in a string according to TDD requirements
 int StringCalculator::Add(const std::string& numbers) {
   if (numbers.empty()) return 0;
@@ -29,11 +34,11 @@ std::vector<std::string> StringCalculator::getDelimiters(const std::string& inpu
     if (input.substr(0, 2) == "//") {
         size_t pos = input.find('\n');
         std::string delim = input.substr(2, pos - 2);
-        if (!delim.empty() && delim.front() == '[' && delim.back() == ']')
-            delimiters.push_back(delim.substr(1, delim.size() - 2));
-        else
-            delimiters.push_back(delim);
-    }
+        if (is_long_delimiter(delim)) {
+    delimiters.push_back(delim.substr(1, delim.size() - 2));
+  } else if (!delim.empty()) {
+    delimiters.push_back(delim);
+  }
     return delimiters;
 }
 
