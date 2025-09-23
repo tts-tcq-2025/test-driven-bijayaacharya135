@@ -85,4 +85,5 @@ int StringCalculator::sumNumbers(const std::vector<int>& nums) {
     for (int n : nums) {
         if (n <= 1000) sum += n;
     }
-    return
+    return sum;
+}
