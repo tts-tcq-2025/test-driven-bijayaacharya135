@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
+#include <string>  // Added for inspect-code
 
 // Helper to check negative exception and avoid code duplication
 void assert_negative_exception(const std::string& input, const std::string& expected_msg) {
