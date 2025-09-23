@@ -3,6 +3,18 @@
 #include <iostream>
 #include <stdexcept>
 
+// Helper to check negative exception and avoid code duplication
+void assert_negative_exception(const std::string& input, const std::string& expected_msg) {
+    StringCalculator calc;
+    try {
+        calc.Add(input);
+        assert(false);
+    } catch (const std::runtime_error& e) {
+        std::cout << e.what() << std::endl;  //  negatives not allowed: ...
+        assert(std::string(e.what()).find(expected_msg) != std::string::npos);
+    }
+}
+
 // TDD Case 1: Empty string returns 0
 void test_empty_string() {
     StringCalculator calc;
@@ -47,19 +59,8 @@ void test_ignore_large_numbers() {
 
 // TDD Case 8: Negative numbers throw exception
 void test_negative_numbers() {
-    StringCalculator calc;
-    try {
-        calc.Add("1,-2,3");
-        assert(false);
-    } catch (const std::runtime_error& e) {
-        std::cout << e.what() << std::endl; // negatives not allowed: -2
-    }
-    try {
-        calc.Add("-1,-2,3");
-        assert(false);
-    } catch (const std::runtime_error& e) {
-        std::cout << e.what() << std::endl; // negatives not allowed: -1 -2
-    }
+    assert_negative_exception("1,-2,3", "negatives not allowed: -2");
+    assert_negative_exception("-1,-2,3", "negatives not allowed: -1 -2");
 }
 
 // TDD Case 9: Delimiter of any length
@@ -79,5 +80,4 @@ int main() {
     test_negative_numbers();
     test_long_delimiter();
     std::cout << "All TDD cases passed!" << std::endl;
-    return 0;
-}
+    return
