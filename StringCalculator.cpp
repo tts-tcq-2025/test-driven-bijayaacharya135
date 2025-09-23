@@ -6,21 +6,21 @@
 
 // Main Add method: sums numbers in a string according to TDD requirements
 int StringCalculator::Add(const std::string& numbers) {
-    if (numbers.empty()) return 0;
+  if (numbers.empty()) return 0;
 
-    std::string input = numbers;
-    std::vector<std::string> delimiters = getDelimiters(input);
-    input = stripDelimiterHeader(input);
+  std::string input = numbers;
+  std::vector<std::string> delimiters = getDelimiters(input);
+  input = stripDelimiterHeader(input);
 
-   // Split long line for inspect-code
-    std::string normalized =
-        normalizeDelimiters(input, delimiters);
+  // Split long line for inspect-code
+  std::string normalized =
+    normalizeDelimiters(input, delimiters);
 
-    std::vector<int> nums = parseNumbers(normalized);
-    checkNegatives(nums);
-    return sumNumbers(nums);
+  std::vector<int> nums = parseNumbers(normalized);
+
+  checkNegatives(nums);
+  return sumNumbers(nums);
 }
-
 // Extracts all delimiters from input string
 std::vector<std::string> StringCalculator::getDelimiters(const std::string& input) {
     std::vector<std::string> delimiters = {",", "\n"};
@@ -45,16 +45,18 @@ std::string StringCalculator::stripDelimiterHeader(const std::string& input) {
 }
 
 // Replaces all delimiters in input string with comma
-std::string StringCalculator::normalizeDelimiters(const std::string& input, const std::vector<std::string>& delimiters) {
-    std::string result = input;
-    for (const auto& d : delimiters) {
-        size_t idx = 0;
-        while ((idx = result.find(d, idx)) != std::string::npos) {
-            result.replace(idx, d.length(), ",");
-            idx += 1;
-        }
+std::string StringCalculator::normalizeDelimiters(
+  const std::string& input,
+  const std::vector<std::string>& delimiters) {  // Line split for inspect-code
+  std::string result = input;
+  for (const auto& d : delimiters) {
+    size_t idx = 0;
+    while ((idx = result.find(d, idx)) != std::string::npos) {
+      result.replace(idx, d.length(), ",");
+      idx += 1;
     }
-    return result;
+  }
+  return result;
 }
 
 // Parses numbers from comma-separated string
