@@ -5,6 +5,110 @@
 #include <vector>
 #include <stdexcept>
 
+class StringCalculator {
+public:
+    // Main Add method: sums numbers in a string according to TDD requirements
+    int Add(const std::string& numbers) {
+        // TDD Case 1: Empty string returns 0
+        if (numbers.empty()) return 0;
+
+        std::string input = numbers;
+        // Extract delimiters (default and custom)
+        std::vector<std::string> delimiters = getDelimiters(input);
+        // Remove delimiter header if present
+        input = stripDelimiterHeader(input);
+
+        // Normalize all delimiters to comma
+        std::string normalized = normalizeDelimiters(input, delimiters);
+        // Parse numbers from normalized string
+        std::vector<int> nums = parseNumbers(normalized);
+
+        // Throw if any negatives found
+        checkNegatives(nums);
+        // Sum numbers, ignoring >1000
+        return sumNumbers(nums);
+    }
+
+private:
+    // Extracts all delimiters from input string
+    std::vector<std::string> getDelimiters(const std::string& input) {
+        std::vector<std::string> delimiters = {",", "\n"};
+        // TDD Case 6 & 9: Custom delimiter, delimiter of any length
+        if (input.substr(0, 2) == "//") {
+            size_t pos = input.find('\n');
+            std::string delim = input.substr(2, pos - 2);
+            // Delimiter of any length in [delim] format
+            if (!delim.empty() && delim.front() == '[' && delim.back() == ']')
+                delimiters.push_back(delim.substr(1, delim.size() - 2));
+            else
+                delimiters.push_back(delim);
+        }
+        return delimiters;
+    }
+
+    // Removes the delimiter header from input string if present
+    std::string stripDelimiterHeader(const std::string& input) {
+        if (input.substr(0, 2) == "//") {
+            size_t pos = input.find('\n');
+            return input.substr(pos + 1);
+        }
+        return input;
+    }
+
+    // Replaces all delimiters in input string with comma
+    std::string normalizeDelimiters(const std::string& input, const std::vector<std::string>& delimiters) {
+        std::string result = input;
+        for (const auto& d : delimiters) {
+            size_t idx = 0;
+            while ((idx = result.find(d, idx)) != std::string::npos) {
+                result.replace(idx, d.length(), ",");
+                idx += 1;
+            }
+        }
+        return result;
+    }
+
+    // Parses numbers from comma-separated string
+    std::vector<int> parseNumbers(const std::string& input) {
+        std::vector<int> nums;
+        std::stringstream ss(input);
+        std::string item;
+        while (std::getline(ss, item, ',')) {
+            if (!item.empty()) {
+                nums.push_back(std::stoi(item));
+            }
+        }
+        return nums;
+    }
+
+    // Throws if any negative numbers are found
+    void checkNegatives(const std::vector<int>& nums) {
+        std::vector<int> negatives;
+        for (int n : nums) {
+            if (n < 0) negatives.push_back(n);
+        }
+        if (!negatives.empty()) {
+            std::string msg = "negatives not allowed:";
+            for (int n : negatives) msg += " " + std::to_string(n);
+            throw std::runtime_error(msg);
+        }
+    }
+
+    // Sums numbers, ignoring any >1000
+    int sumNumbers(const std::vector<int>& nums) {
+        int sum = 0;
+        for (int n : nums) {
+            if (n <= 1000) sum += n;
+        }
+        return sum;
+
+/*#pragma once
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <vector>
+#include <stdexcept>
+
 // TDD Case 1: Empty string returns 0
 // TDD Case 2: Single number returns itself
 // TDD Case 3: Two numbers, comma-separated
@@ -66,4 +170,4 @@ public:
         }
         return sum;
     }
-};
+};*/
