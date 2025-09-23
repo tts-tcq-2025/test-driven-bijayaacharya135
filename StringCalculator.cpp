@@ -89,6 +89,9 @@ void StringCalculator::checkNegatives(const std::vector<int>& nums) {
 
 // Sums numbers, ignoring any >1000
 int StringCalculator::sumNumbers(const std::vector<int>& nums) {
-  return std::accumulate(nums.begin(), nums.end(), 0,
-                         [](int acc, int n) { return acc + (n <= 1000 ? n : 0); });  // Use STL algorithm
+  return std::accumulate(
+    nums.begin(), nums.end(), 0,
+    [](int acc, int n) {
+      return acc + (n <= 1000 ? n : 0);
+    });  // Use STL algorithm
 }
