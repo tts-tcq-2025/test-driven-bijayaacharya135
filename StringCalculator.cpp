@@ -12,9 +12,11 @@ int StringCalculator::Add(const std::string& numbers) {
     std::vector<std::string> delimiters = getDelimiters(input);
     input = stripDelimiterHeader(input);
 
-    std::string normalized = normalizeDelimiters(input, delimiters);
-    std::vector<int> nums = parseNumbers(normalized);
+   // Split long line for inspect-code
+    std::string normalized =
+        normalizeDelimiters(input, delimiters);
 
+    std::vector<int> nums = parseNumbers(normalized);
     checkNegatives(nums);
     return sumNumbers(nums);
 }
