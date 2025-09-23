@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <algorithm>  // For std::copy_if
+#include <numeric>    // For std::accumulate
 
 // Main Add method: sums numbers in a string according to TDD requirements
 int StringCalculator::Add(const std::string& numbers) {
@@ -75,9 +77,9 @@ std::vector<int> StringCalculator::parseNumbers(const std::string& input) {
 // Throws if any negative numbers are found
 void StringCalculator::checkNegatives(const std::vector<int>& nums) {
     std::vector<int> negatives;
-    for (int n : nums) {
-        if (n < 0) negatives.push_back(n);
-    }
+    std::copy_if(nums.begin(), nums.end(), std::back_inserter(negatives),
+               [](int n) { return n < 0; });  // Use STL algorithm
+
     if (!negatives.empty()) {
         std::string msg = "negatives not allowed:";
         for (int n : negatives) msg += " " + std::to_string(n);
@@ -87,9 +89,6 @@ void StringCalculator::checkNegatives(const std::vector<int>& nums) {
 
 // Sums numbers, ignoring any >1000
 int StringCalculator::sumNumbers(const std::vector<int>& nums) {
-    int sum = 0;
-    for (int n : nums) {
-        if (n <= 1000) sum += n;
-    }
-    return sum;
+  return std::accumulate(nums.begin(), nums.end(), 0,
+                         [](int acc, int n) { return acc + (n <= 1000 ? n : 0); });  // Use STL algorithm
 }
