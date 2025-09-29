@@ -41,6 +41,7 @@ std::vector<std::string> StringCalculator::getDelimiters(const std::string& inpu
   }
     return delimiters;
 }
+}
 
 // Removes the delimiter header from input string if present
 std::string StringCalculator::stripDelimiterHeader(const std::string& input) {
