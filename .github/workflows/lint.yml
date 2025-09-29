@@ -28,8 +28,10 @@ jobs:
 
     - name: cppcheck
       run: |
-        cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem --std=c++17 *.cpp *.h
+        cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem --language=c++ --std=c++17 *.cpp *.h
+        # Added --language=c++ to ensure C++ files are checked as C++
 
-    - name: clang-format
+    - name: clang-tidy
       run: |
         clang-tidy -p=. *.cpp *.h
+        # Renamed step to clang-tidy for clarity
